@@ -1,7 +1,10 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import './Post.css'
 import Avatar from "@material-ui/core/Avatar"
+
 const Post = ({username, caption, imageUrl}) => {
+
+    
     return (
         <div className="post">
             <div className="post__header">
