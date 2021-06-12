@@ -5,6 +5,7 @@ import './App.css';
 import {makeStyles} from "@material-ui/core/styles"
 import Modal from "@material-ui/core/Modal"
 import Button from "@material-ui/core/Button"
+import ImageUpload from './ImageUpload'
 import Input from "@material-ui/core/Input"
 import Post from './Post'
 import {db,auth} from './firebase'
