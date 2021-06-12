@@ -6,6 +6,7 @@ import {makeStyles} from "@material-ui/core/styles"
 import Modal from "@material-ui/core/Modal"
 import Button from "@material-ui/core/Button"
 import ImageUpload from './ImageUpload'
+import InstagramEmbed from 'react-instagram-embed';
 import Input from "@material-ui/core/Input"
 import Post from './Post'
 import {db,auth} from './firebase'
@@ -69,7 +70,7 @@ function App() {
     setOpen(false)
   }
   useEffect(()=>{
-    db.collection('posts').onSnapshot(snap=>{
+    db.collection('posts').orderBy('timestamp','desc').onSnapshot(snap=>{
         setPosts(snap.docs.map(doc=>{
           return(
             {
@@ -163,7 +164,6 @@ function App() {
         width={120}
         className='app__headerImage'
         src='https://th.bing.com/th/id/R5cdb4191426f52fdcc8bbdf57f53cdc2?rik=PoFNyb3OpdWS%2bA&pid=ImgRaw'/>
-      </div>
       {user?
       <Button onClick={()=>auth.signOut()}>
       Logout
@@ -179,15 +179,42 @@ function App() {
       </Button>
       </div>
     )
-    
     }
+      </div>
       
+      <div className='app__post'>
+      <div className='app__postLeft'>
       {posts?.map(({id,post})=>{
         return(
-        <Post key={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>
+        <Post key={id} user={user} postId={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>
         )
       })}
+        </div>
+      <div className='app__postRight'>
+        </div>
       
+      <InstagramEmbed
+  url='https://www.instagram.com/huzaifa306205/'
+  clientAccessToken='123|456'
+  maxWidth={320}
+  hideCaption={false}
+  containerTagName='div'
+  protocol=''
+  injectScript
+  onLoading={() => {}}
+  onSuccess={() => {}}
+  onAfterRender={() => {}}
+  onFailure={() => {}}
+/>
+      </div>
+      {user?.displayName?(
+        <ImageUpload username={user.displayName}/>
+      )
+      :
+      <h3>
+        Sorry you need to login to upload
+      </h3>
+      }
 </div>
   );
 }
